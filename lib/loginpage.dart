@@ -13,7 +13,7 @@ class login extends StatelessWidget {
   Widget build(BuildContext context) {
     void si() async {
       final user = await authService()
-          .loginUserWithEmailAndPassword(email.text, pass.text);
+          .loginUserWithEmailAndPassword(email.text, pass.text, context);
       if (user != null) {
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => homepage()));

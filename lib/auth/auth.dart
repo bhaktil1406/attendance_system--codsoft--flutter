@@ -26,13 +26,17 @@ class authService {
   }
 
   Future<User?> loginUserWithEmailAndPassword(
-      String email, String password) async {
+      String email, String password, BuildContext context) async {
     try {
       final cred = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
       return cred.user;
-    } catch (e) {
-      print(e);
+    } on FirebaseAuthException catch (e11) {
+      if (e11.code == 'invalid-credential') {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text("incorrect")));
+      }
+      print(e11);
     }
     return null;
   }
@@ -41,6 +45,7 @@ class authService {
     try {
       await FirebaseAuth.instance.signOut();
     } catch (e) {
+
       print(e);
     }
     return null;
